@@ -45,7 +45,6 @@ public class TestRunner {
              */
             driver = new AppiumDriver<>(new URL("http://0.0.0.0:4723/wd/hub"), desiredCapabilities);
 
-
             MobileElement digit2 = driver.findElement(By.id("com.android.calculator2:id/digit_2"));
             MobileElement digit4 = driver.findElement(By.id("com.android.calculator2:id/digit_4"));
             MobileElement digit5 = driver.findElement(By.id("com.android.calculator2:id/digit_5"));
@@ -54,6 +53,7 @@ public class TestRunner {
             MobileElement plus = driver.findElement(MobileBy.AccessibilityId("plus"));
             MobileElement multiply = driver.findElement(MobileBy.AccessibilityId("multiply"));
             MobileElement equals = driver.findElement(MobileBy.AccessibilityId("equals"));
+            MobileElement minus = driver.findElementByAccessibilityId("minus");
             MobileElement delete = driver.findElement(MobileBy.AccessibilityId("delete"));
 
             MobileElement result = driver.findElement(By.id("com.android.calculator2:id/result"));
@@ -75,6 +75,16 @@ public class TestRunner {
             equals.click();
             resultText = result.getText();
             Assert.assertEquals(resultText,"20");
+            Thread.sleep(1000);
+
+            // 63 - 7 returning 56
+            getDigit(6).click();
+            getDigit(3).click();
+            minus.click();
+            getDigit(7).click();
+            equals.click();
+            resultText = result.getText();
+            Assert.assertEquals(resultText,"56");
 
             Thread.sleep(3000);
 //            desiredCapabilities.setCapability(MobileCapabilityType.APP, System.getProperty("user.dir")+"\\etsy.apk");
@@ -92,6 +102,11 @@ public class TestRunner {
             e.printStackTrace();
         }
 
+    }
 
+    //Crete a method that is returning mobile element of the digit that you pass as a parameter
+
+    public  MobileElement getDigit(int digit){
+        return driver.findElement(By.id("com.android.calculator2:id/digit_"+ digit));
     }
 }
