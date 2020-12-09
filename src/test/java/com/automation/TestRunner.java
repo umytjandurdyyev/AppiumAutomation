@@ -32,8 +32,12 @@ public class TestRunner {
 
             // Set your application's MainActivity i.e. the LAUNCHER activity name.
             desiredCapabilities.setCapability("appActivity", "com.android.calculator2.Calculator");
-
-
+            /*
+            "http://0.0.0.0:4723/wd/hub" --> address of the appium server. If you have appium server on the same computer
+            just use local host
+            4723 --> default port number
+            we need provide 2 parameters: URL of appium servers and desired capabilities
+             */
             driver = new AppiumDriver<>(new URL("http://0.0.0.0:4723/wd/hub"), desiredCapabilities);
 
 
@@ -43,18 +47,15 @@ public class TestRunner {
 //            Thread.sleep(3000);
 //            WebElement getStarted = driver.findElement(By.xpath("//*[@text='Get Started']"));
 //            getStarted.click();
+
             Thread.sleep(3000);
+
+            //close the app at the end
             driver.closeApp();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        /*
-        capabilities.setCapability("appPackage", "com.android.calculator2");
-// Set your application's package name.
 
-capabilities.setCapability("appActivity", "com.android.calculator2.Calculator");
-// Set your application's MainActivity i.e. the LAUNCHER activity name.
-         */
     }
 }
