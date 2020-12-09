@@ -128,6 +128,46 @@ public class TestRunner {
         driver.closeApp();
     }
 
+
+
+    @Test
+    public void realPhoneTest() throws MalformedURLException, InterruptedException {
+        /*
+        5200435bb4125541 get this number on terminal by sending "adb devices"
+        Settings --> About phone --> Software Information --> Build number --> tab several time
+        Then
+        Developer options --> USB debugging enable
+         */
+
+        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+
+        desiredCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, Platform.ANDROID);
+        desiredCapabilities.setCapability(MobileCapabilityType.VERSION, "10.0");
+        desiredCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "5200435bb4125541");
+        desiredCapabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME,"UiAutomator2");
+        //desiredCapabilities.setCapability(MobileCapabilityType.APP, System.getProperty("user.dir")+"\\etsy.apk");
+        desiredCapabilities.setCapability(MobileCapabilityType.APP, "https://cybertek-appium.s3.amazonaws.com/etsy.apk");
+        //https://cybertek-appium.s3.amazonaws.com/etsy.apk
+        desiredCapabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 20000);
+
+        driver = new AppiumDriver<>(new URL("http://0.0.0.0:4723/wd/hub"), desiredCapabilities);
+
+        MobileElement you = driver.findElementByAccessibilityId("You tab, 4 of 5");
+        you.click();
+        Thread.sleep(3000);
+        MobileElement settings = driver.findElement(By.xpath("//*[@text='Settings']"));
+        settings.click();
+        Thread.sleep(3000);
+        MobileElement checkBox = driver.findElement(By.id("com.etsy.android:id/settings_checkbox"));
+        checkBox.click();
+        Thread.sleep(3000);
+
+        //verify after click the box it is not selected
+        Assert.assertFalse(driver.findElement(By.id("com.etsy.android:id/settings_checkbox")).isSelected());
+
+        driver.closeApp();
+    }
+
     //Crete a method that is returning mobile element of the digit that you pass as a parameter
     public  MobileElement getDigit(int digit){
         return driver.findElement(By.id("com.android.calculator2:id/digit_"+ digit));
