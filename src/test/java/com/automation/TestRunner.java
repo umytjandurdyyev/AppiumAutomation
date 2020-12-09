@@ -45,20 +45,38 @@ public class TestRunner {
              */
             driver = new AppiumDriver<>(new URL("http://0.0.0.0:4723/wd/hub"), desiredCapabilities);
 
-            //Test 2 + 2 returning 4
+
             MobileElement digit2 = driver.findElement(By.id("com.android.calculator2:id/digit_2"));
+            MobileElement digit4 = driver.findElement(By.id("com.android.calculator2:id/digit_4"));
+            MobileElement digit5 = driver.findElement(By.id("com.android.calculator2:id/digit_5"));
+
             //MobileBy child class of By
             MobileElement plus = driver.findElement(MobileBy.AccessibilityId("plus"));
+            MobileElement multiply = driver.findElement(MobileBy.AccessibilityId("multiply"));
             MobileElement equals = driver.findElement(MobileBy.AccessibilityId("equals"));
+            MobileElement delete = driver.findElement(MobileBy.AccessibilityId("delete"));
+
             MobileElement result = driver.findElement(By.id("com.android.calculator2:id/result"));
+
+            //Test 2 + 2 returning 4
+
             digit2.click();
             plus.click();
             digit2.click();
             equals.click();
             String resultText = result.getText();
             Assert.assertEquals(resultText,"4");
-            Thread.sleep(3000);
+            Thread.sleep(1000);
 
+            // 4 * 5 returning 20
+            digit4.click();
+            multiply.click();
+            digit5.click();
+            equals.click();
+            resultText = result.getText();
+            Assert.assertEquals(resultText,"20");
+
+            Thread.sleep(3000);
 //            desiredCapabilities.setCapability(MobileCapabilityType.APP, System.getProperty("user.dir")+"\\etsy.apk");
 //            desiredCapabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 20000);
 //            driver = new AppiumDriver<>(new URL("http://0.0.0.0:4723/wd/hub"), desiredCapabilities);
