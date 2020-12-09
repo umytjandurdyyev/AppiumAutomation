@@ -10,13 +10,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 
 public class TestRunner {
     private AppiumDriver<MobileElement> driver;
 
     @Test
-    public void test(){
+    public void calculatorTest(){
         try {
             DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
             //we use android phone
@@ -87,14 +88,6 @@ public class TestRunner {
             Assert.assertEquals(resultText,"56");
 
             Thread.sleep(3000);
-//            desiredCapabilities.setCapability(MobileCapabilityType.APP, System.getProperty("user.dir")+"\\etsy.apk");
-//            desiredCapabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 20000);
-//            driver = new AppiumDriver<>(new URL("http://0.0.0.0:4723/wd/hub"), desiredCapabilities);
-//            Thread.sleep(3000);
-//            WebElement getStarted = driver.findElement(By.xpath("//*[@text='Get Started']"));
-//            getStarted.click();
-
-            Thread.sleep(3000);
 
             //close the app at the end
             driver.closeApp();
@@ -104,8 +97,38 @@ public class TestRunner {
 
     }
 
-    //Crete a method that is returning mobile element of the digit that you pass as a parameter
+    @Test
+    public void etsyTest() throws MalformedURLException, InterruptedException {
+        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
 
+        desiredCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, Platform.ANDROID);
+        desiredCapabilities.setCapability(MobileCapabilityType.VERSION, "8.0");
+        desiredCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Pixel_2");
+        desiredCapabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME,"UiAutomator2");
+        //desiredCapabilities.setCapability(MobileCapabilityType.APP, System.getProperty("user.dir")+"\\etsy.apk");
+        desiredCapabilities.setCapability(MobileCapabilityType.APP, "https://cybertek-appium.s3.amazonaws.com/etsy.apk");
+        //https://cybertek-appium.s3.amazonaws.com/etsy.apk
+        desiredCapabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 20000);
+
+        driver = new AppiumDriver<>(new URL("http://0.0.0.0:4723/wd/hub"), desiredCapabilities);
+
+        MobileElement you = driver.findElementByAccessibilityId("You tab, 4 of 5");
+        you.click();
+        Thread.sleep(3000);
+        MobileElement settings = driver.findElement(By.xpath("//*[@text='Settings']"));
+        settings.click();
+        Thread.sleep(3000);
+        MobileElement checkBox = driver.findElement(By.id("com.etsy.android:id/settings_checkbox"));
+        checkBox.click();
+        Thread.sleep(3000);
+
+        //verify after click the box it is not selected
+        Assert.assertFalse(driver.findElement(By.id("com.etsy.android:id/settings_checkbox")).isSelected());
+
+        driver.closeApp();
+    }
+
+    //Crete a method that is returning mobile element of the digit that you pass as a parameter
     public  MobileElement getDigit(int digit){
         return driver.findElement(By.id("com.android.calculator2:id/digit_"+ digit));
     }
