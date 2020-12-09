@@ -134,6 +134,7 @@ public class TestRunner {
     public void realPhoneTest() throws MalformedURLException, InterruptedException {
         /*
         5200435bb4125541 get this number on terminal by sending "adb devices"
+        On your Android phone
         Settings --> About phone --> Software Information --> Build number --> tab several time
         Then
         Developer options --> USB debugging enable
@@ -145,7 +146,7 @@ public class TestRunner {
         desiredCapabilities.setCapability(MobileCapabilityType.VERSION, "10.0");
         desiredCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "5200435bb4125541");
         desiredCapabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME,"UiAutomator2");
-        //desiredCapabilities.setCapability(MobileCapabilityType.APP, System.getProperty("user.dir")+"\\etsy.apk");
+
         desiredCapabilities.setCapability(MobileCapabilityType.APP, "https://cybertek-appium.s3.amazonaws.com/etsy.apk");
         //https://cybertek-appium.s3.amazonaws.com/etsy.apk
         desiredCapabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 20000);
@@ -165,6 +166,24 @@ public class TestRunner {
         //verify after click the box it is not selected
         Assert.assertFalse(driver.findElement(By.id("com.etsy.android:id/settings_checkbox")).isSelected());
 
+        driver.closeApp();
+    }
+
+    @Test
+    public void ynamdar() throws MalformedURLException, InterruptedException {
+        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+
+        desiredCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, Platform.ANDROID);
+        desiredCapabilities.setCapability(MobileCapabilityType.VERSION, "8.0");
+        desiredCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Pixel_2");
+        desiredCapabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME,"UiAutomator2");
+        desiredCapabilities.setCapability(MobileCapabilityType.APP, System.getProperty("user.dir")+"\\Ynamdar.apk");
+
+        desiredCapabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 20000);
+
+        driver = new AppiumDriver<>(new URL("http://0.0.0.0:4723/wd/hub"), desiredCapabilities);
+
+        Thread.sleep(10000);
         driver.closeApp();
     }
 
