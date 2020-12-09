@@ -1,9 +1,12 @@
 package com.automation;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.remote.MobileCapabilityType;
+import org.junit.Assert;
 import org.junit.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -32,14 +35,29 @@ public class TestRunner {
 
             // Set your application's MainActivity i.e. the LAUNCHER activity name.
             desiredCapabilities.setCapability("appActivity", "com.android.calculator2.Calculator");
+
+            desiredCapabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME,"UiAutomator2");
             /*
-            "http://0.0.0.0:4723/wd/hub" --> address of the appium server. If you have appium server on the same computer
+            "http://localhost:4723/wd/hub" --> address of the appium server. If you have appium server on the same computer
             just use local host
             4723 --> default port number
             we need provide 2 parameters: URL of appium servers and desired capabilities
              */
             driver = new AppiumDriver<>(new URL("http://0.0.0.0:4723/wd/hub"), desiredCapabilities);
 
+            //Test 2 + 2 returning 4
+            MobileElement digit2 = driver.findElement(By.id("com.android.calculator2:id/digit_2"));
+            //MobileBy child class of By
+            MobileElement plus = driver.findElement(MobileBy.AccessibilityId("plus"));
+            MobileElement equals = driver.findElement(MobileBy.AccessibilityId("equals"));
+            MobileElement result = driver.findElement(By.id("com.android.calculator2:id/result"));
+            digit2.click();
+            plus.click();
+            digit2.click();
+            equals.click();
+            String resultText = result.getText();
+            Assert.assertEquals(resultText,"4");
+            Thread.sleep(3000);
 
 //            desiredCapabilities.setCapability(MobileCapabilityType.APP, System.getProperty("user.dir")+"\\etsy.apk");
 //            desiredCapabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 20000);
