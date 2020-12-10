@@ -193,7 +193,7 @@ public class TestRunner {
     }
 
     @Test
-    public void sauceLabs() throws MalformedURLException, InterruptedException {
+    public void sauceLabsAndroid() throws MalformedURLException, InterruptedException {
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
 
         desiredCapabilities.setCapability("appiumVersion", "1.18.1");
@@ -223,4 +223,29 @@ public class TestRunner {
 
         driver.quit();
     }
+
+    @Test
+    public void sauceLabsIOS() throws MalformedURLException, InterruptedException {
+        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+
+        desiredCapabilities.setCapability("appiumVersion", "1.19.1");
+        desiredCapabilities.setCapability("deviceName","iPhone XS Simulator");
+        desiredCapabilities.setCapability("deviceOrientation", "portrait");
+        desiredCapabilities.setCapability("platformVersion","14.0");
+        desiredCapabilities.setCapability("platformName", "iOS");
+        desiredCapabilities.setCapability("browserName", "Safari");
+        desiredCapabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME,"XCUITest");
+
+        desiredCapabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 20000);
+
+        driver = new AppiumDriver<>(new URL("https://udurdiyev:56a4c3a2-52a1-4ae2-bdbb-2ffbaa8cafea@ondemand.us-west-1.saucelabs.com:443/wd/hub"), desiredCapabilities);
+
+        driver.get("https://www.cybertekschool.com");
+
+        Thread.sleep(3000);
+
+        driver.quit();
+    }
+
+
 }
