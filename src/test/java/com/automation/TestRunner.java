@@ -191,4 +191,36 @@ public class TestRunner {
     public  MobileElement getDigit(int digit){
         return driver.findElement(By.id("com.android.calculator2:id/digit_"+ digit));
     }
+
+    @Test
+    public void sauceLabs() throws MalformedURLException, InterruptedException {
+        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+
+        desiredCapabilities.setCapability("appiumVersion", "1.18.1");
+        desiredCapabilities.setCapability("deviceName","Google Pixel 3a XL GoogleAPI Emulator");
+        desiredCapabilities.setCapability("deviceOrientation", "portrait");
+        desiredCapabilities.setCapability("browserName", "");
+        desiredCapabilities.setCapability("platformVersion","11.0");
+        desiredCapabilities.setCapability("platformName","Android");
+        desiredCapabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME,"UiAutomator2");
+        desiredCapabilities.setCapability(MobileCapabilityType.APP, "https://cybertek-appium.s3.amazonaws.com/etsy.apk");
+        desiredCapabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 20000);
+
+        driver = new AppiumDriver<>(new URL("https://udurdiyev:56a4c3a2-52a1-4ae2-bdbb-2ffbaa8cafea@ondemand.us-west-1.saucelabs.com:443/wd/hub"), desiredCapabilities);
+
+        MobileElement you = driver.findElementByAccessibilityId("You tab, 4 of 5");
+        you.click();
+        Thread.sleep(1000);
+        MobileElement settings = driver.findElement(By.xpath("//*[@text='Settings']"));
+        settings.click();
+        Thread.sleep(1000);
+        MobileElement checkBox = driver.findElement(By.id("com.etsy.android:id/settings_checkbox"));
+        checkBox.click();
+        Thread.sleep(1000);
+
+        //verify after click the box it is not selected
+        Assert.assertFalse(driver.findElement(By.id("com.etsy.android:id/settings_checkbox")).isSelected());
+
+        driver.quit();
+    }
 }
